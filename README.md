@@ -11,7 +11,7 @@ This library is using [Hardhat](https://hardhat.org/getting-started/) and [Truff
   * PSI : [0x92FcE27e6b5F86237D2B1974266D27C2788fa237](https://kovan.etherscan.io/address/0x92FcE27e6b5F86237D2B1974266D27C2788fa237)
 
 * Binance Chain
-  * PSI : [0x92FcE27e6b5F86237D2B1974266D27C2788fa237](https://bscscan.com/address/0x92FcE27e6b5F86237D2B1974266D27C2788fa237)
+  * PSI : [0x9A5d9c681Db43D9863e9279c800A39449B7e1d6f](https://bscscan.com/address/0x9A5d9c681Db43D9863e9279c800A39449B7e1d6f)
 
 * Binance Test Chain
   * PSI : [0x066Bd99080eC62FE0E28bA687A53aC00794c17b6](https://testnet.bscscan.com/address/0x066Bd99080eC62FE0E28bA687A53aC00794c17b6)
