@@ -1,6 +1,6 @@
 # PSI token
 
-This library is using [Hardhat](https://hardhat.org/getting-started/) and [Truffle](https://www.trufflesuite.com/docs/truffle/getting-started/running-migrations) for development, compiling, testing and deploying. The development tool used foor development is [Visual Studio Code](https://code.visualstudio.com/) which has [great plugins](https://hardhat.org/guides/vscode-tests.html) for solidity development and mocha testing.
+This library is using [Hardhat](https://hardhat.org/getting-started/) for development, compiling, testing and deploying. The development tool used for development is [Visual Studio Code](https://code.visualstudio.com/) which has [great plugins](https://hardhat.org/guides/vscode-tests.html) for solidity development and mocha testing.
 
 ## Contracts
 
@@ -12,9 +12,13 @@ This library is using [Hardhat](https://hardhat.org/getting-started/) and [Truff
 
 * Binance Chain
   * PSI : [0x9A5d9c681Db43D9863e9279c800A39449B7e1d6f](https://bscscan.com/address/0x9A5d9c681Db43D9863e9279c800A39449B7e1d6f)
+  * PSI Governance : [0x3eD41B43F7B49a44c6479cb1A4Dc87F12353aa87](https://bscscan.com/address/0x3eD41B43F7B49a44c6479cb1A4Dc87F12353aa87)
+  * Fee Aggregator : [0x31E74CAE772875b403972D7331350c98ee5Aca54](https://bscscan.com/address/0x31E74CAE772875b403972D7331350c98ee5Aca54)
 
 * Binance Test Chain
   * PSI : [0x066Bd99080eC62FE0E28bA687A53aC00794c17b6](https://testnet.bscscan.com/address/0x066Bd99080eC62FE0E28bA687A53aC00794c17b6)
+  * PSI Governance : [0xcfC30C6c08f892B3B342233C8C40eb9b02145787](https://testnet.bscscan.com/address/0xcfC30C6c08f892B3B342233C8C40eb9b02145787)
+  * Fee Aggregator : [0x421ae58261925b3ae04cC78244B173F78Ec48356](https://testnet.bscscan.com/address/0x421ae58261925b3ae04cC78244B173F78Ec48356)
 
 ## Compiling
 

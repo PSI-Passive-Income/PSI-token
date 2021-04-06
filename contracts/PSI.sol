@@ -9,9 +9,9 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/utils/EnumerableSet.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./IBEP20.sol";
+import "./interfaces/IPSI.sol";
 
-contract PSI is Context, IBEP20, Ownable {
+contract PSI is Context, IPSI, Ownable {
     using SafeMath for uint256;
     using Address for address;
     using EnumerableSet for EnumerableSet.AddressSet;
@@ -81,11 +81,11 @@ contract PSI is Context, IBEP20, Ownable {
     }
 
     //== Increase and decrease allowance ==
-    function increaseAllowance(address spender, uint256 addedValue) public virtual returns (bool) {
+    function increaseAllowance(address spender, uint256 addedValue) public override virtual returns (bool) {
         _approve(_msgSender(), spender, _allowances[_msgSender()][spender].add(addedValue));
         return true;
     }
-    function decreaseAllowance(address spender, uint256 subtractedValue) public virtual returns (bool) {
+    function decreaseAllowance(address spender, uint256 subtractedValue) public override virtual returns (bool) {
         _approve(_msgSender(), spender, _allowances[_msgSender()][spender].sub(subtractedValue, 
             "ERC20: decreased allowance below zero"));
         return true;
@@ -101,43 +101,43 @@ contract PSI is Context, IBEP20, Ownable {
     }
 
     //== Include or Exclude account from earning fees ==
-    function isExcludedFromFeeRetrieval(address account) public view returns (bool) {
+    function isExcludedFromFeeRetrieval(address account) public override view returns (bool) {
         return _addressesExcludedFromFeeRetrieval.contains(account);
     }
-    function excludeAccountForFeeRetrieval(address account) external onlyOwner() {
+    function excludeAccountForFeeRetrieval(address account) external override onlyOwner() {
         require(!_addressesExcludedFromFeeRetrieval.contains(account), "PSI: Address already excluded");
         if(_reflectedOwned[account] > 0) {
             _totalOwned[account] = tokenFromReflection(_reflectedOwned[account]);
         }
         _addressesExcludedFromFeeRetrieval.add(account);
     }
-    function includeAccountForFeeRetrieval(address account) external onlyOwner() {
+    function includeAccountForFeeRetrieval(address account) external override onlyOwner() {
         require(_addressesExcludedFromFeeRetrieval.contains(account), "PSI: Address already included");
         _addressesExcludedFromFeeRetrieval.remove(account);
         _totalOwned[account] = 0;
     }
-    function isExcludedFromFeePayment(address account) public view returns (bool) {
+    function isExcludedFromFeePayment(address account) public override view returns (bool) {
         return _addressesExcludedFromFeePayment[account];
     }
-    function excludeAccountFromFeePayment(address account) external onlyOwner() {
+    function excludeAccountFromFeePayment(address account) external override onlyOwner() {
         require(!_addressesExcludedFromFeePayment[account], "PSI: Address already excluded");
         _addressesExcludedFromFeePayment[account] = true;
     }
-    function includeAccountFromFeePayment(address account) external onlyOwner() {
+    function includeAccountFromFeePayment(address account) external override onlyOwner() {
         require(_addressesExcludedFromFeePayment[account], "PSI: Address already included");
         _addressesExcludedFromFeePayment[account] = false;
     }
 
     //== Fees ==
-    function totalFees() public view returns (uint256) {
+    function totalFees() public override view returns (uint256) {
         return _totalFees;
     }
-    function changeFee(uint256 fee) external onlyOwner() {
+    function changeFee(uint256 fee) external override onlyOwner() {
         _fee = fee;
     }
 
     //== Reflection ==
-    function reflect(uint256 tAmount) public {
+    function reflect(uint256 tAmount) public override {
         address sender = _msgSender();
         (uint256 rAmount,,,,) = _getValues(sender, tAmount);
         if (_addressesExcludedFromFeeRetrieval.contains(sender)) 
@@ -146,7 +146,7 @@ contract PSI is Context, IBEP20, Ownable {
         _totalWithReflection = _totalWithReflection.sub(rAmount);
         _totalFees = _totalFees.add(tAmount);
     }
-    function reflectionFromToken(uint256 tAmount, bool deductTransferFee) external view returns(uint256) {
+    function reflectionFromToken(uint256 tAmount, bool deductTransferFee) external override view returns(uint256) {
         require(tAmount <= _totalWithoutReflection, "PSI: Amount cannot be higher then the total supply");
         if (!deductTransferFee) {
             (uint256 rAmount,,,,) = _getValues(_msgSender(), tAmount);
@@ -156,7 +156,7 @@ contract PSI is Context, IBEP20, Ownable {
             return rTransferAmount;
         }
     }
-    function tokenFromReflection(uint256 rAmount) public view returns(uint256) {
+    function tokenFromReflection(uint256 rAmount) public override view returns(uint256) {
         require(rAmount <= _totalWithReflection, "PSI: Amount must be less than total reflections");
         uint256 currentRate =  _getSupplyRate();
         return rAmount.div(currentRate);

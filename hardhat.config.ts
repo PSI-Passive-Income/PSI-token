@@ -1,8 +1,12 @@
 import { HardhatUserConfig } from "hardhat/types";
 
+// import "@nomiclabs/hardhat-ganache";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-typechain";
 import 'hardhat-abi-exporter';
+import "hardhat-tracer";
+import "hardhat-dependency-compiler";
+import 'hardhat-contract-sizer';
 import '@openzeppelin/hardhat-upgrades';
 import "@nomiclabs/hardhat-etherscan";
 
@@ -40,6 +44,11 @@ const config: HardhatUserConfig = {
       url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
       accounts: [`0x${process.env.BSC_PRIVATE_KEY}`],
+    },
+    ganache: {
+      url: "HTTP://127.0.0.1:7545",
+      chainId: 1337,
+      accounts: [`0x767f7322259ccc3a24165da6767b2a76f7cd94b2e4b0f76beb65b8b07ec11990`]
     }
     // rinkeby: {
     //   url: `${process.env.RINKEBY_INFURA}`,
@@ -53,11 +62,11 @@ const config: HardhatUserConfig = {
   },
   solidity: {
     compilers: [{ 
-      version: "0.7.4", 
+      version: "0.7.4",
       settings: {
         optimizer: {
           enabled: true,
-          runs: 999999
+          runs: 39999
         }
       } 
     }],
@@ -67,7 +76,12 @@ const config: HardhatUserConfig = {
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
-  }
+  },
+  contractSizer: {
+    alphaSort: false,
+    runOnCompile: false,
+    disambiguatePaths: false,
+  }  
 };
 
 export default config;
