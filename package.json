@@ -1,7 +1,7 @@
 {
   "name": "@passive-income/psi-contracts",
   "description": "🎛 token and fee contracts for the PSI",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "homepage": "https://www.passive-income.io/",
   "private": false,
   "repository": {
