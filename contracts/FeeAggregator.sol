@@ -10,16 +10,14 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol";
 import "@passive-income/dpex-peripheral/contracts/interfaces/IDPexRouter.sol";
-import "@uniswap/lib/contracts/libraries/TransferHelper.sol";
 import "./interfaces/IFeeAggregator.sol";
 import "./interfaces/IPSI.sol";
-import "./abstracts/Governable.sol";
-import "./abstracts/SafeGas.sol";
+import "./abstracts/PSIGovernable.sol";
 
-contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, Governable, SafeGas {
+contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSIGovernable {
     using SafeERC20 for IERC20;
     using AddressUpgradeable for address;
-    using SafeMath for uint;
+    using SafeMath for uint256;
     using EnumerableSet for EnumerableSet.AddressSet;
 
     //== Variables ==
@@ -59,10 +57,6 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, Gov
     //== MODIFIERS ==
     modifier ensure(uint deadline) {
         require(deadline >= block.timestamp, 'FeeAggregator: EXPIRED');
-        _;
-    }
-    modifier onlyRouter() {
-        require(router() == _msgSender(), "FeeAggregator: ONLY_ROUTER_ALLOWED");
         _;
     }
 
@@ -137,7 +131,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, Gov
      * @param token fee token to check
      * @param fee fee to add to the tokensGathered list
      */
-    function addTokenFee(address token, uint256 fee) external override onlyRouter {
+    function addTokenFee(address token, uint256 fee) external override {
         require (_feeTokens.contains(token), "Token is not a feeToken");
         tokensGathered[token] += fee;
     }
@@ -146,9 +140,10 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, Gov
      * @param tokens fee tokens to check
      * @param fees fees to add to the tokensGathered list
      */
-    function addTokenFees(address[] memory tokens, uint256[] memory fees) external override onlyRouter {
+    function addTokenFees(address[] memory tokens, uint256[] memory fees) external override {
         require (tokens.length == fees.length, "Token is not a feeToken");
         for(uint256 idx = 0; idx < tokens.length; idx++) {
+            require (_feeTokens.contains(tokens[idx]), "Token is not a feeToken");
             tokensGathered[tokens[idx]] += fees[idx];
         }
     }
@@ -156,7 +151,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, Gov
     /**
      * @notice sells all fees for PSI and reflects them over the PSI holders
      */
-    function reflectFees(uint256 deadline) external override useCHI onlyGovernor ensure(deadline) {
+    function reflectFees(uint256 deadline) external override onlyGovernor ensure(deadline) {
         uint256 psiBalanceBefore = IERC20(psi).balanceOf(address(this));
         _sellFeesToPSI();
         uint256 psiFeeBalance = IERC20(psi).balanceOf(address(this)).sub(psiBalanceBefore);
@@ -170,7 +165,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, Gov
     /**
      * @notice sells a single fee for PSI and reflects them over the PSI holders
      */
-    function reflectFee(address token, uint256 deadline) external override useCHI onlyGovernor ensure(deadline) {
+    function reflectFee(address token, uint256 deadline) external override onlyGovernor ensure(deadline) {
         require(_feeTokens.contains(token), "FeeAggregator: NO_FEE_TOKEN");
         uint256 psiBalanceBefore = IERC20(psi).balanceOf(address(this));
         uint256 psiFeeBalance;

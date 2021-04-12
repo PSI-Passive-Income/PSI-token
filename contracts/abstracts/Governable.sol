@@ -3,13 +3,14 @@
 pragma solidity ^0.7.4;
 
 import "@openzeppelin/contracts/utils/Address.sol";
-import "../interfaces/IGovernable.sol";
+import "../interfaces/governance/IGovernable.sol";
+import "../interfaces/governance/IGovernance.sol";
 
 abstract contract Governable is IGovernable {
     using Address for address;
 
     //== Variables ==
-    address public gov_contract; // contract governing the Token
+    address public override gov_contract; // contract governing the Token
 
 
     //== CONSTRUCTOR ==
@@ -24,42 +25,16 @@ abstract contract Governable is IGovernable {
 
     //== MODIFIERS ==
     modifier onlyMastermind() {
-        require(isMastermind(msg.sender), "Only mastermind is allowed");
+        require(IGovernance(gov_contract).isMastermind(msg.sender), "Only mastermind is allowed");
         _;
     }
     modifier onlyGovernor() {
-        require(isGovernor(msg.sender), "Only governor is allowed");
+        require(IGovernance(gov_contract).isGovernor(msg.sender), "Only governor is allowed");
         _;
     }
     modifier onlyPartner() {
-        require(isPartner(msg.sender), "Only partner is allowed");
+        require(IGovernance(gov_contract).isPartner(msg.sender), "Only partner is allowed");
         _;
-    }
-
-
-    //== VIEW ==
-    function isMastermind(address _address) public override view returns (bool) {
-        return IGovernable(gov_contract).isMastermind(_address);
-    }
-    function isGovernor(address _address) public override view returns (bool) {
-        return IGovernable(gov_contract).isGovernor(_address);
-    }
-    function isPartner(address _address) public override view returns (bool) {
-        return IGovernable(gov_contract).isPartner(_address);
-    }
-    function isUser(address _address) external override view returns (bool) {
-        return IGovernable(gov_contract).isUser(_address);
-    }
-
-    function gasToken() public override view returns (address) {
-        return IGovernable(gov_contract).gasToken();
-    }
-    function enableGasPromotion() public override view returns (bool) {
-        return IGovernable(gov_contract).enableGasPromotion();
-    }
-    
-    function router() public override view returns (address) {
-        return IGovernable(gov_contract).router();
     }
 
 

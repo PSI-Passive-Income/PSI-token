@@ -4,9 +4,9 @@ pragma solidity ^0.7.4;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "../interfaces/ICHI.sol";
-import "./Governable.sol";
+import "./PSIGovernable.sol";
 
-abstract contract SafeGas is Governable {
+abstract contract SafeGas is PSIGovernable {
     /**
      * @notice frees CHI from gas provider to reduce gas costs
      * @dev requires that gas provider has approved this contract to use their CHI

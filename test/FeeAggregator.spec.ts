@@ -77,19 +77,19 @@ describe('FeeAggregator', () => {
     await expect(feeAggregator.setDPexFee(201, overrides)).to.be.revertedWith("FeeAggregator: FEE_MIN_0_MAX_20")
   })
 
-  it('calculateFee', async () => {
-    const psiAmount = BigNumber.from('1000');
-    const expextedPSIAmount = BigNumber.from('999');
-    const result = await feeAggregator.calculateFee(psi.address, psiAmount, overrides);
-    console.log(result);
-    // expect().to.eq(expextedPSIAmount);
-  })
+  // it('calculateFee', async () => {
+  //   const psiAmount = BigNumber.from('1000');
+  //   const expextedPSIAmount = BigNumber.from('999');
+  //   const result = await feeAggregator.calculateFee(psi.address, psiAmount, overrides);
+  //   console.log(result);
+  //   // expect().to.eq(expextedPSIAmount);
+  // })
 
-  it('addTokenFee', async () => {
-    const psiFeeAmount = BigNumber.from('1000');
-    await psi.approve(feeAggregator.address, utils.parseUnits('1000', 9))
-    await feeAggregator.addTokenFee(psi.token, psiFeeAmount, overrides)
+  // it('addTokenFee', async () => {
+  //   const psiFeeAmount = BigNumber.from('1000');
+  //   await psi.approve(feeAggregator.address, utils.parseUnits('1000', 9))
+  //   await feeAggregator.addTokenFee(psi.token, psiFeeAmount, overrides)
 
-    expect(await feeAggregator.tokensGathered(psi.token, overrides)).to.eq(psiFeeAmount);
-  })
+  //   expect(await feeAggregator.tokensGathered(psi.token, overrides)).to.eq(psiFeeAmount);
+  // })
 })

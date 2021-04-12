@@ -6,9 +6,9 @@ import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/math/SafeMathUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
 import "@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol";
-import "./interfaces/IGovernable.sol";
+import "./interfaces/governance/IPSIGovernance.sol";
 
-contract PSIGovernance is IGovernable, Initializable, ContextUpgradeable {
+contract PSIGovernance is IPSIGovernance, Initializable, ContextUpgradeable {
     using SafeMathUpgradeable for uint256;
     using AddressUpgradeable for address;
 
