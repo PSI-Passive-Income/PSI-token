@@ -66,7 +66,7 @@ const config: HardhatUserConfig = {
       settings: {
         optimizer: {
           enabled: true,
-          runs: 39999
+          runs: 30000
         }
       } 
     }],
@@ -76,6 +76,13 @@ const config: HardhatUserConfig = {
     tests: "./test",
     cache: "./cache",
     artifacts: "./artifacts"
+  },
+  dependencyCompiler: {
+    paths: [
+      '@passive-income/dpex-swap-core/contracts/DPexFactory.sol',
+      '@passive-income/dpex-peripheral/contracts/DPexRouterPairs.sol',
+      '@passive-income/dpex-peripheral/contracts/DPexRouter.sol'
+    ],
   },
   contractSizer: {
     alphaSort: false,

@@ -1,3 +1,4 @@
 {
-    "solidity.defaultCompiler": "localNodeModule"
+    "solidity.defaultCompiler": "localNodeModule",
+    "typescript.tsdk": "node_modules\\typescript\\lib"
 }

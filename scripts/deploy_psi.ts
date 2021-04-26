@@ -1,8 +1,8 @@
-// npx hardhat run scripts/router.ts
+// npx hardhat run scripts/deploy_psi.ts
 
 require("dotenv").config({path: `${__dirname}/.env`});
 import { ethers } from "hardhat";
-import { PSI } from "../typechain/PSI";
+import { PSI } from "../typechain";
 import PSIAbi from "../abi/contracts/PSI.sol/PSI.json";
 
 const main = async() => {

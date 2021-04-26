@@ -23,18 +23,14 @@ describe('FeeAggregator', () => {
 
   let psi: PSI
   let WETH: IWETH
-  let router: DPexRouter
   let governance: PSIGovernance
   let feeAggregator: FeeAggregator
-  let WETHPair: IDPexPair
   beforeEach(async function() {
     const fixture = await loadFixture(v2Fixture)
     psi = fixture.psi
     WETH = fixture.WETH
-    router = fixture.router
     governance = fixture.governance
     feeAggregator = fixture.feeAggregator
-    WETHPair = fixture.WETHPair
   })
 
   it('psi, WETH', async () => {

@@ -1,0 +1,404 @@
+{
+  "manifestVersion": "3.1",
+  "impls": {
+    "7a94a0747ff31b939393dd02676ede345d5681e492bea29d74275138787939f6": {
+      "address": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      "txHash": "0xd3088e177bb84940d40904dc8b0ad8a5b1bfe5b7822d4102f2e75f1ad9bba641",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "feeTo",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-swap-core\\contracts\\DPexFactory.sol:12"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "feeToSetter",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-swap-core\\contracts\\DPexFactory.sol:13"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "getPair",
+            "type": "t_mapping(t_address,t_mapping(t_address,t_address))",
+            "src": "@passive-income\\dpex-swap-core\\contracts\\DPexFactory.sol:15"
+          },
+          {
+            "contract": "DPexFactory",
+            "label": "allPairs",
+            "type": "t_array(t_address)dyn_storage",
+            "src": "@passive-income\\dpex-swap-core\\contracts\\DPexFactory.sol:16"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_mapping(t_address,t_address))": {
+            "label": "mapping(address => mapping(address => address))"
+          },
+          "t_mapping(t_address,t_address)": {
+            "label": "mapping(address => address)"
+          },
+          "t_array(t_address)dyn_storage": {
+            "label": "address[]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "77110a5645f2609645d72f476d7696803b17dd525d47ccdc014458dceb737279": {
+      "address": "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      "txHash": "0xdb140bb47340f32d73ce50097f19f4e84fcd7e0a83655abe5441104074cc4fc5",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "governanceLevels",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\PSIGovernance.sol:25"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "gasToken",
+            "type": "t_address",
+            "src": "contracts\\PSIGovernance.sol:30"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "enableGasPromotion",
+            "type": "t_bool",
+            "src": "contracts\\PSIGovernance.sol:35"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "router",
+            "type": "t_address",
+            "src": "contracts\\PSIGovernance.sol:40"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "4a3b6e7b7e60b9369461493e6e0f14e16a9820a978e6632bb5098e21087a20e5": {
+      "address": "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+      "txHash": "0xf4ce051f51cb9d573806c9d1828894fc656eb7ed90e68b598a7fc50de32047b3",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "_feeTokens",
+            "type": "t_struct(AddressSet)2066_storage",
+            "src": "contracts\\FeeAggregator.sol:24"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "psi",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:29"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "baseToken",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:33"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "dpexFee",
+            "type": "t_uint256",
+            "src": "contracts\\FeeAggregator.sol:37"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "tokensGathered",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\FeeAggregator.sol:41"
+          }
+        ],
+        "types": {
+          "t_struct(AddressSet)2066_storage": {
+            "label": "struct EnumerableSet.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1801_storage"
+              }
+            ]
+          },
+          "t_struct(Set)1801_storage": {
+            "label": "struct EnumerableSet.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)"
+              }
+            ]
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "cbc97bfa7e47d91187a360a582209a0ffe18d57b30da3e8cdc98f64955ed9ec3": {
+      "address": "0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0",
+      "txHash": "0x407c3108d69999d0c972b8df85f3e1a9936544e9a3143865e99bea368aa96c52",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "DPexRouterPairs",
+            "label": "feeAggregator",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-peripheral\\contracts\\DPexRouterPairs.sol:16"
+          },
+          {
+            "contract": "DPexRouterPairs",
+            "label": "factories",
+            "type": "t_struct(AddressToBytes32Map)7086_storage",
+            "src": "@passive-income\\dpex-peripheral\\contracts\\DPexRouterPairs.sol:18"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_struct(AddressToBytes32Map)7086_storage": {
+            "label": "struct OrderedEnumerableMap.AddressToBytes32Map",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(MapExtensions)6749_storage"
+              }
+            ]
+          },
+          "t_struct(MapExtensions)6749_storage": {
+            "label": "struct OrderedEnumerableMap.MapExtensions",
+            "members": [
+              {
+                "label": "_entries",
+                "type": "t_array(t_struct(MapEntry)6741_storage)dyn_storage"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)"
+              }
+            ]
+          },
+          "t_array(t_struct(MapEntry)6741_storage)dyn_storage": {
+            "label": "struct OrderedEnumerableMap.MapEntry[]"
+          },
+          "t_struct(MapEntry)6741_storage": {
+            "label": "struct OrderedEnumerableMap.MapEntry",
+            "members": [
+              {
+                "label": "_key",
+                "type": "t_bytes32"
+              },
+              {
+                "label": "_value",
+                "type": "t_bytes32"
+              }
+            ]
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "0b979e4092dec8082eca43b2c634e68be16e2c02b62805e6de7e25becf98d148": {
+      "address": "0x0B306BF915C4d645ff596e518fAf3F9669b97016",
+      "txHash": "0xdda4f46e8091ef64dda6beb5614508d25021d7c518cf3ab51819318454d6108a",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "DPexRouter",
+            "label": "baseFactory",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-peripheral\\contracts\\DPexRouter.sol:23"
+          },
+          {
+            "contract": "DPexRouter",
+            "label": "routerPairs",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-peripheral\\contracts\\DPexRouter.sol:24"
+          },
+          {
+            "contract": "DPexRouter",
+            "label": "WETH",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-peripheral\\contracts\\DPexRouter.sol:25"
+          },
+          {
+            "contract": "DPexRouter",
+            "label": "WETHWrapper",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-peripheral\\contracts\\DPexRouter.sol:26"
+          },
+          {
+            "contract": "DPexRouter",
+            "label": "feeAggregator",
+            "type": "t_address",
+            "src": "@passive-income\\dpex-peripheral\\contracts\\DPexRouter.sol:27"
+          }
+        ],
+        "types": {
+          "t_address": {
+            "label": "address"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    }
+  },
+  "admin": {
+    "address": "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+    "txHash": "0x018ae3d5c85e93fe79c33ef8ce09b2fd531d59a4bd43ca07a9187ca9fda2f677"
+  }
+}
