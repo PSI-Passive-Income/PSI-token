@@ -1,0 +1,406 @@
+{
+  "manifestVersion": "3.1",
+  "impls": {
+    "77110a5645f2609645d72f476d7696803b17dd525d47ccdc014458dceb737279": {
+      "address": "0xbD5454BAE9BAd69CB2Ea4840D38bc31f080cdAeC",
+      "txHash": "0xf58bfa70f69338f16a90efc11f5139560b5bdc7f6534108f1bc6793335fae777",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "governanceLevels",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\PSIGovernance.sol:25"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "gasToken",
+            "type": "t_address",
+            "src": "contracts\\PSIGovernance.sol:30"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "enableGasPromotion",
+            "type": "t_bool",
+            "src": "contracts\\PSIGovernance.sol:35"
+          },
+          {
+            "contract": "PSIGovernance",
+            "label": "router",
+            "type": "t_address",
+            "src": "contracts\\PSIGovernance.sol:40"
+          }
+        ],
+        "types": {
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_bool": {
+            "label": "bool"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          }
+        }
+      }
+    },
+    "7fd69556423ab3252097a52034c5336e405de37648676c6fa6c8d21703958bfa": {
+      "address": "0x19D1D09CF77261CA9aD70B4Be25d02F861B36D7d",
+      "txHash": "0xefda556ce5f8601f7f854af84ab58ccfd20579c805a0839d20e6af16d65bfa83",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "_feeTokens",
+            "type": "t_struct(AddressSet)1575_storage",
+            "src": "contracts\\FeeAggregator.sol:24"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "psi",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:29"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "baseToken",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:33"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "dpexFee",
+            "type": "t_uint256",
+            "src": "contracts\\FeeAggregator.sol:37"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "tokensGathered",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\FeeAggregator.sol:41"
+          }
+        ],
+        "types": {
+          "t_struct(AddressSet)1575_storage": {
+            "label": "struct EnumerableSet.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1310_storage"
+              }
+            ]
+          },
+          "t_struct(Set)1310_storage": {
+            "label": "struct EnumerableSet.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)"
+              }
+            ]
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "4a3b6e7b7e60b9369461493e6e0f14e16a9820a978e6632bb5098e21087a20e5": {
+      "address": "0x9E199d6528B8c340F41Cb44f312E67c956Bcc178",
+      "txHash": "0xd37760e29654af5f6c5c1fc8afc2c4bb655dd5b545dadb7aba4419fa44692d84",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "_feeTokens",
+            "type": "t_struct(AddressSet)2066_storage",
+            "src": "contracts\\FeeAggregator.sol:24"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "psi",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:29"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "baseToken",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:33"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "dpexFee",
+            "type": "t_uint256",
+            "src": "contracts\\FeeAggregator.sol:37"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "tokensGathered",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\FeeAggregator.sol:41"
+          }
+        ],
+        "types": {
+          "t_struct(AddressSet)2066_storage": {
+            "label": "struct EnumerableSet.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1801_storage"
+              }
+            ]
+          },
+          "t_struct(Set)1801_storage": {
+            "label": "struct EnumerableSet.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)"
+              }
+            ]
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    },
+    "86d725bfebb36811147d1e73618e5bf526ec002decb5c528c45d59ac72c00cb0": {
+      "address": "0x2483ce15052c38d925e22010b9ac2703438cAD27",
+      "txHash": "0x7591da6a375b2f113388916bed50263907698f8c6ab1a5067949feba8cf1818f",
+      "layout": {
+        "storage": [
+          {
+            "contract": "Initializable",
+            "label": "_initialized",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:25"
+          },
+          {
+            "contract": "Initializable",
+            "label": "_initializing",
+            "type": "t_bool",
+            "src": "@openzeppelin\\contracts-upgradeable\\proxy\\Initializable.sol:30"
+          },
+          {
+            "contract": "ContextUpgradeable",
+            "label": "__gap",
+            "type": "t_array(t_uint256)50_storage",
+            "src": "@openzeppelin\\contracts-upgradeable\\utils\\ContextUpgradeable.sol:31"
+          },
+          {
+            "contract": "Governable",
+            "label": "gov_contract",
+            "type": "t_address",
+            "src": "contracts\\abstracts\\Governable.sol:13"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "_feeTokens",
+            "type": "t_struct(AddressSet)1575_storage",
+            "src": "contracts\\FeeAggregator.sol:24"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "psi",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:29"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "baseToken",
+            "type": "t_address",
+            "src": "contracts\\FeeAggregator.sol:33"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "dpexFee",
+            "type": "t_uint256",
+            "src": "contracts\\FeeAggregator.sol:37"
+          },
+          {
+            "contract": "FeeAggregator",
+            "label": "tokensGathered",
+            "type": "t_mapping(t_address,t_uint256)",
+            "src": "contracts\\FeeAggregator.sol:41"
+          }
+        ],
+        "types": {
+          "t_struct(AddressSet)1575_storage": {
+            "label": "struct EnumerableSet.AddressSet",
+            "members": [
+              {
+                "label": "_inner",
+                "type": "t_struct(Set)1310_storage"
+              }
+            ]
+          },
+          "t_struct(Set)1310_storage": {
+            "label": "struct EnumerableSet.Set",
+            "members": [
+              {
+                "label": "_values",
+                "type": "t_array(t_bytes32)dyn_storage"
+              },
+              {
+                "label": "_indexes",
+                "type": "t_mapping(t_bytes32,t_uint256)"
+              }
+            ]
+          },
+          "t_array(t_bytes32)dyn_storage": {
+            "label": "bytes32[]"
+          },
+          "t_bytes32": {
+            "label": "bytes32"
+          },
+          "t_mapping(t_bytes32,t_uint256)": {
+            "label": "mapping(bytes32 => uint256)"
+          },
+          "t_uint256": {
+            "label": "uint256"
+          },
+          "t_address": {
+            "label": "address"
+          },
+          "t_mapping(t_address,t_uint256)": {
+            "label": "mapping(address => uint256)"
+          },
+          "t_array(t_uint256)50_storage": {
+            "label": "uint256[50]"
+          },
+          "t_bool": {
+            "label": "bool"
+          }
+        }
+      }
+    }
+  },
+  "admin": {
+    "address": "0x4C12E07F5Fa5C8a5c34118cc5ea9274A68E0F6F7",
+    "txHash": "0x4adfa920375eee51579fc6f3723204ec618da8092dc84c3d700bcef5e6b5262e"
+  }
+}

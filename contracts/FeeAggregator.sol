@@ -41,6 +41,9 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
     mapping(address => uint256) public tokensGathered;
 
 
+    uint256 private constant MAX_INT = 2**256 - 1;
+
+
     //== CONSTRUCTOR ==
     /**
      * @dev Initializes the contract setting the deployer as the initial Governor.
@@ -104,10 +107,26 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
      * @notice add a token to deduct a fee for on swap
      * @param token fee token to add
      */
-    function addFeeToken(address token) public override onlyGovernor {
+    function addFeeToken(address token) external override onlyGovernor {
         require(!_feeTokens.contains(token), "FeeAggregator: ALREADY_FEE_TOKEN");
         _feeTokens.add(token);
-        IERC20(token).approve(router(), 1e18);
+        approveFeeToken(token);
+    }
+    /**
+     * @notice approve a single fee token on the router
+     * @param token fee token to approve
+     */
+    function approveFeeToken(address token) public override onlyGovernor {
+        IERC20(token).approve(router(), MAX_INT);
+    }
+    /**
+     * @notice approve all fee tokens on the router
+     */
+    function approveFeeTokens() external override onlyGovernor {
+        for(uint256 idx = 0; idx < _feeTokens.length(); idx++) {
+            address token = _feeTokens.at(idx);
+            approveFeeToken(token);
+        }
     }
     /**
      * @notice remove a token to deduct a fee for on swap

@@ -1565,10 +1565,10 @@
     hardhat-dependency-compiler "^1.1.1"
     hardhat-tracer "^1.0.0-alpha.2"
 
-"@passive-income/dpex-peripheral@1.1.6":
-  version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@passive-income/dpex-peripheral/-/dpex-peripheral-1.1.6.tgz#c1ef1c0361115f1949fa826122deaf2248091435"
-  integrity sha512-YOHyAL8FgrIQvY1KT6mHzrogU6Pvw/WZSDnFQcXBTEv4YmnnO5XSFOKdn5mjGxEH/nFJY0gg40s7+IHuGPf5Wg==
+"@passive-income/dpex-peripheral@1.1.9":
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/@passive-income/dpex-peripheral/-/dpex-peripheral-1.1.9.tgz#335de2229d90735f7909e2cc880dcc1a1dfdc6a6"
+  integrity sha512-KfEu5yYncsV2LZXNosCU7xUkYgxCHJomrhqBZz7mDRj/g5SJ6G0ZTwfFomYYG9D59Gh5IE3D29Ov34uwG666vw==
   dependencies:
     "@openzeppelin/contracts" "^3.3.0-solc-0.7"
     "@openzeppelin/contracts-upgradeable" "^3.3.0-solc-0.7"
