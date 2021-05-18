@@ -2,12 +2,12 @@
 
 // Based on the Reflector.Finance contract at https://github.com/reflectfinance/reflect-contracts
 
-pragma solidity ^0.7.4;
+pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/GSN/Context.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-import "@openzeppelin/contracts/utils/EnumerableSet.sol";
+import "@openzeppelin/contracts/utils/structs/EnumerableSet.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IPSI.sol";
 
