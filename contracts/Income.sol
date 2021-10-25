@@ -1,15 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.7.4;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/GSN/Context.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/utils/Context.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IIncome.sol";
 
 contract Income is Context, IIncome, Ownable {
-    using SafeMath for uint256;
     using Address for address;
 
     mapping (address => uint256) private _balances;
@@ -69,8 +67,8 @@ contract Income is Context, IIncome, Ownable {
         _transfer(_msgSender(), recipient, amount);
         return true;
     }
-    function allowance(address owner, address spender) external override view returns (uint256) {
-        return _allowances[owner][spender];
+    function allowance(address _owner, address spender) external override view returns (uint256) {
+        return _allowances[_owner][spender];
     }
     function approve(address spender, uint256 amount) external override returns (bool) {
         _approve(_msgSender(), spender, amount);
@@ -78,17 +76,26 @@ contract Income is Context, IIncome, Ownable {
     }
     function transferFrom(address sender, address recipient, uint256 amount) external override returns (bool) {
         _transfer(sender, recipient, amount);
-        _approve(sender, _msgSender(), _allowances[sender][_msgSender()]
-            .sub(amount, "INCOME: transfer amount exceeds allowance"));
+
+        uint256 currentAllowance = _allowances[sender][_msgSender()];
+        require(currentAllowance >= amount, "ERC20: transfer amount exceeds allowance");
+        unchecked {
+            _approve(sender, _msgSender(), currentAllowance - amount);
+        }
+
         return true;
     }
     function increaseAllowance(address spender, uint256 addedValue) external returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender].add(addedValue));
+        _approve(_msgSender(), spender, _allowances[_msgSender()][spender] + addedValue);
         return true;
     }
     function decreaseAllowance(address spender, uint256 subtractedValue) external returns (bool) {
-        _approve(_msgSender(), spender, _allowances[_msgSender()][spender]
-            .sub(subtractedValue, "INCOME: decreased allowance below zero"));
+        uint256 currentAllowance = _allowances[_msgSender()][spender];
+        require(currentAllowance >= subtractedValue, "ERC20: decreased allowance below zero");
+        unchecked {
+            _approve(_msgSender(), spender, currentAllowance - subtractedValue);
+        }
+
         return true;
     }
 
@@ -165,8 +172,8 @@ contract Income is Context, IIncome, Ownable {
     */
     function _mint(address account, uint256 amount) internal {
         require(account != address(0), "INCOME: mint to the zero address");
-        _currentSupply = _currentSupply.add(amount);
-        _balances[account] = _balances[account].add(amount);
+        _currentSupply += amount;
+        _balances[account] += amount;
         emit Transfer(address(0), account, amount);
     }
 
@@ -220,9 +227,15 @@ contract Income is Context, IIncome, Ownable {
     */
     function _burn(address account, uint256 amount) internal {
         require(account != address(0), "INCOME: burn from the zero address");
-        _balances[account] = _balances[account].sub(amount, "INCOME: burn amount exceeds balance");
-        _currentSupply = _currentSupply.sub(amount);
-        _burnedSupply = _burnedSupply.add(amount);
+
+        uint256 accountBalance = _balances[account];
+        require(accountBalance >= amount, "ERC20: burn amount exceeds balance");
+        unchecked {
+            _balances[account] = accountBalance - amount;
+        }
+
+        _currentSupply -= amount;
+        _burnedSupply += amount;
         emit Transfer(account, address(0), amount);
     }
 
@@ -266,20 +279,24 @@ contract Income is Context, IIncome, Ownable {
         require(sender != address(0), "INCOME: transfer from the zero address");
         require(recipient != address(0), "INCOME: transfer to the zero address");
 
-        _balances[sender] = _balances[sender].sub(amount, "INCOME: transfer amount exceeds balance");
+        uint256 senderBalance = _balances[sender];
+        require(senderBalance >= amount, "ERC20: transfer amount exceeds balance");
+        unchecked {
+            _balances[sender] = senderBalance - amount;
+        }
         
         uint256 toBurn;
         if (!_addressesExcludedFromBurnRate[sender]) {
-            toBurn = amount.mul(_burnRate).div(10000);
+            toBurn = (amount * _burnRate) / 10000;
             if (toBurn > 0) {
-                _burnedSupply = _burnedSupply.add(toBurn);
-                _currentSupply = _currentSupply.sub(toBurn);
-                amount = amount.sub(toBurn);
+                _burnedSupply += toBurn;
+                _currentSupply -= toBurn;
+                amount -= toBurn;
             }
         }
 
-        _balances[recipient] = _balances[recipient].add(amount);
-        emit Transfer(sender, recipient, amount.add(toBurn));
+        _balances[recipient] += amount;
+        emit Transfer(sender, recipient, amount + toBurn);
     }
 
     /**
@@ -295,11 +312,11 @@ contract Income is Context, IIncome, Ownable {
     * - `owner` cannot be the zero address.
     * - `spender` cannot be the zero address.
     */
-    function _approve(address owner, address spender, uint256 amount) internal {
-        require(owner != address(0), "INCOME: approve from the zero address");
+    function _approve(address _owner, address spender, uint256 amount) internal {
+        require(_owner != address(0), "INCOME: approve from the zero address");
         require(spender != address(0), "INCOME: approve to the zero address");
 
-        _allowances[owner][spender] = amount;
-        emit Approval(owner, spender, amount);
+        _allowances[_owner][spender] = amount;
+        emit Approval(_owner, spender, amount);
     }
 }

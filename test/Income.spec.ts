@@ -117,7 +117,7 @@ describe('Income', () => {
       await income.changeBurnRate(300, overrides)
     })
     it('Cannot burn more than a wallet`s holdings', async () => {
-      await expect(income.connect(account).burn(1, overrides)).to.be.revertedWith("INCOME: burn amount exceeds balance")
+      await expect(income.connect(account).burn(1, overrides)).to.be.revertedWith("ERC20: burn amount exceeds balance")
     })
     it('Burning should update total burned', async () => {
       await expect(income.burn(toBurn, overrides))

@@ -1,27 +1,23 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.7.4;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
-import '@openzeppelin/contracts/token/ERC20/SafeERC20.sol';
-import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
-import "@openzeppelin/contracts/utils/EnumerableSet.sol";
-import "@openzeppelin/contracts/math/SafeMath.sol";
-import "@openzeppelin/contracts-upgradeable/proxy/Initializable.sol";
-import "@openzeppelin/contracts-upgradeable/GSN/ContextUpgradeable.sol";
-import "@passive-income/dpex-peripheral/contracts/interfaces/IDPexRouter.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC20/IERC20Upgradeable.sol";
+import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
+import "@openzeppelin/contracts-upgradeable/utils/structs/EnumerableSetUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
+import "./interfaces/IDPexRouter.sol";
 import "./interfaces/IFeeAggregator.sol";
 import "./interfaces/IPSI.sol";
 import "./abstracts/PSIGovernable.sol";
 
 contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSIGovernable {
-    using SafeERC20 for IERC20;
-    using AddressUpgradeable for address;
-    using SafeMath for uint256;
-    using EnumerableSet for EnumerableSet.AddressSet;
+    using SafeERC20Upgradeable for IERC20Upgradeable;
+    using EnumerableSetUpgradeable for EnumerableSetUpgradeable.AddressSet;
 
     //== Variables ==
-    EnumerableSet.AddressSet private _feeTokens; // all the token where a fee is deducted from on swap
+    EnumerableSetUpgradeable.AddressSet private _feeTokens; // all the token where a fee is deducted from on swap
 
     /**
      * @notice psi token contract
@@ -87,8 +83,8 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
      * @param amount amount to calculate the fee for
      */
     function calculateFee(uint256 amount) public override view returns (uint256 fee, uint256 amountLeft) {
-        amountLeft = (amount.mul(1000).sub(amount.mul(dpexFee))).div(1000);
-        fee = amount.sub(amountLeft);
+        amountLeft = ((amount * 1000) - (amount * dpexFee)) / 1000;
+        fee = amount - amountLeft;
     }
     /**
      * @notice returns the fee for the amount given, but only if the token is in the feetokens list
@@ -117,7 +113,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
      * @param token fee token to approve
      */
     function approveFeeToken(address token) public override onlyGovernor {
-        IERC20(token).approve(router(), MAX_INT);
+        IERC20Upgradeable(token).approve(router(), MAX_INT);
     }
     /**
      * @notice approve all fee tokens on the router
@@ -171,9 +167,9 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
      * @notice sells all fees for PSI and reflects them over the PSI holders
      */
     function reflectFees(uint256 deadline) external override onlyGovernor ensure(deadline) {
-        uint256 psiBalanceBefore = IERC20(psi).balanceOf(address(this));
+        uint256 psiBalanceBefore = IERC20Upgradeable(psi).balanceOf(address(this));
         _sellFeesToPSI();
-        uint256 psiFeeBalance = IERC20(psi).balanceOf(address(this)).sub(psiBalanceBefore);
+        uint256 psiFeeBalance = IERC20Upgradeable(psi).balanceOf(address(this)) - psiBalanceBefore;
         if (tokensGathered[psi] > 0) {
             psiFeeBalance += tokensGathered[psi];
             tokensGathered[psi] = 0;
@@ -186,14 +182,14 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
      */
     function reflectFee(address token, uint256 deadline) external override onlyGovernor ensure(deadline) {
         require(_feeTokens.contains(token), "FeeAggregator: NO_FEE_TOKEN");
-        uint256 psiBalanceBefore = IERC20(psi).balanceOf(address(this));
+        uint256 psiBalanceBefore = IERC20Upgradeable(psi).balanceOf(address(this));
         uint256 psiFeeBalance;
         if (token == psi) {
             psiFeeBalance = tokensGathered[psi];
             require(psiFeeBalance > 0, "FeeAggregator: NO_FEE_TOKEN_BALANCE");
         } else {
             _sellFeeToPSI(token);
-            psiFeeBalance = IERC20(psi).balanceOf(address(this)).sub(psiBalanceBefore);
+            psiFeeBalance = IERC20Upgradeable(psi).balanceOf(address(this)) - psiBalanceBefore;
         }
 
         IPSI(psi).reflect(psiFeeBalance);
@@ -201,7 +197,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
     function _sellFeesToPSI() internal {
         for(uint256 idx = 0; idx < _feeTokens.length(); idx++) {
             address token = _feeTokens.at(idx);
-            uint256 tokenBalance = IERC20(token).balanceOf(address(this));
+            uint256 tokenBalance = IERC20Upgradeable(token).balanceOf(address(this));
             if (token != baseToken && token != psi && tokenBalance > 0) {
                 tokensGathered[token] = 0;
                 address[] memory path = new address[](2);
@@ -214,7 +210,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
         _sellBaseTokenToPSI();
     }
     function _sellFeeToPSI(address token) internal {
-        uint256 tokenBalance = IERC20(token).balanceOf(address(this));
+        uint256 tokenBalance = IERC20Upgradeable(token).balanceOf(address(this));
         require(tokenBalance > 0, "FeeAggregator: NO_FEE_TOKEN_BALANCE");
         if (token != baseToken && token != psi && tokenBalance > 0) {
             tokensGathered[token] = 0;
@@ -228,7 +224,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
         }
     }
     function _sellBaseTokenToPSI() internal {
-        uint256 balance = IERC20(baseToken).balanceOf(address(this));
+        uint256 balance = IERC20Upgradeable(baseToken).balanceOf(address(this));
         if (balance <= 0) return;
 
         tokensGathered[baseToken] = 0;

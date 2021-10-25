@@ -1,13 +1,13 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 
-pragma solidity ^0.7.4;
+pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts-upgradeable/utils/AddressUpgradeable.sol";
 import "../interfaces/governance/IGovernable.sol";
 import "../interfaces/governance/IGovernance.sol";
 
 abstract contract Governable is IGovernable {
-    using Address for address;
+    using AddressUpgradeable for address;
 
     //== Variables ==
     address public override gov_contract; // contract governing the Token

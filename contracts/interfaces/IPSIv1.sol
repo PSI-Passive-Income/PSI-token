@@ -4,17 +4,22 @@ pragma solidity ^0.8.0;
 
 import "./IBEP20.sol";
 
-interface IPSI is IBEP20 {
+interface IPSIv1 is IBEP20 {
+    //== Increase and decrease allowance ==
+    function increaseAllowance(address spender, uint256 addedValue) external returns (bool);
+    function decreaseAllowance(address spender, uint256 subtractedValue) external returns (bool);
+
     //== Include or Exclude account from earning fees ==
-    function setAccountExcludedFromFees(address account, bool excluded) external;
     function isExcludedFromFeeRetrieval(address account) external view returns (bool);
-    function setAccountExcludedFromFeeRetrieval(address account, bool excluded) external;
+    function excludeAccountForFeeRetrieval(address account) external;
+    function includeAccountForFeeRetrieval(address account) external;
     function isExcludedFromFeePayment(address account) external view returns (bool);
-    function setAccountExcludedFromFeePayment(address account, bool excluded) external;
+    function excludeAccountFromFeePayment(address account) external;
+    function includeAccountFromFeePayment(address account) external;
 
     //== Fees ==
     function totalFees() external view returns (uint256);
-    function setReflectionFee(uint256 fee) external;
+    function changeFee(uint256 fee) external;
 
     //== Reflection ==
     function reflect(uint256 tAmount) external;

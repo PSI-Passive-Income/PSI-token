@@ -18,8 +18,8 @@ const overrides = {
 
 describe('FeeAggregator', () => {
   const { provider, createFixtureLoader } = waffle;
-  const [wallet] = provider.getWallets()
-  const loadFixture = createFixtureLoader([wallet], provider)
+  const [owner] = provider.getWallets()
+  const loadFixture = createFixtureLoader([owner], provider)
 
   let psi: PSI
   let WETH: IWETH
