@@ -26,9 +26,9 @@ const config: HardhatUserConfig = {
       url: `${process.env.KOVAN_INFURA}`,
       accounts: [`0x${process.env.KOVAN_PRIVATE_KEY}`]
     },
-    goerli: {
-      url: `${process.env.GOERLI_INFURA}`,
-      accounts: [`0x${process.env.GOERLI_PRIVATE_KEY}`]
+    rinkeby: {
+      url: `${process.env.RINKEBY_INFURA}`,
+      accounts: [`0x${process.env.RINKEBY_PRIVATE_KEY}`]
     },
     mainnet: {
       url: `${process.env.MAIN_INFURA}`,
@@ -49,20 +49,9 @@ const config: HardhatUserConfig = {
       url: "HTTP://127.0.0.1:7545",
       chainId: 1337,
       accounts: [`0x767f7322259ccc3a24165da6767b2a76f7cd94b2e4b0f76beb65b8b07ec11990`]
-    },
-    arbitrum: {
-      url: "https://arb1.arbitrum.io/rpc",
-      chainId: 42161,
-      accounts: [`0x${process.env.BSC_PRIVATE_KEY}`],
     }
-    // rinkeby: {
-    //   url: `${process.env.RINKEBY_INFURA}`,
-    //   accounts: [`0x${process.env.RINKEBY_PRIVATE_KEY}`]
-    // }
   },
   etherscan: {
-    // Your API key for Etherscan
-    // Obtain one at https://etherscan.io/
     apiKey: `${process.env.BSC_API_TOKEN}`
   },
   solidity: {
@@ -102,7 +91,7 @@ const config: HardhatUserConfig = {
   // },
   contractSizer: {
     alphaSort: false,
-    runOnCompile: false,
+    runOnCompile: true,
     disambiguatePaths: false,
   }  
 };
