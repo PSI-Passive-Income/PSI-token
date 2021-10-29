@@ -29,6 +29,8 @@ interface IPSI is IBEP20, IERC20Permit {
     //== Swap old contract ==
     function setSwapEnabled(bool value) external;
     function swapOld() external;
+    function swapOldAmount(uint256 amount) external;
+    function callOld(bytes memory data) external returns (bytes memory);
 
     //== Include or Exclude account from earning fees ==
     function setAccountExcludedFromFees(address account, bool excluded) external;
@@ -36,9 +38,11 @@ interface IPSI is IBEP20, IERC20Permit {
     function setAccountExcludedFromFeeRetrieval(address account, bool excluded) external;
     function isExcludedFromFeePayment(address account) external view returns (bool);
     function setAccountExcludedFromFeePayment(address account, bool excluded) external;
+    function isExcludedFromDexFeePayment(address account) external view returns (bool);
+    function setAccountExcludedDexFromFeePayment(address account, bool excluded) external;
 
     // Liquidity pairs
-    function setDefaultRouter(address _router) external;
+    function setDefaultRouter(address _router, address factory) external;
     function setDexPair(address pair, bool value) external;
     function setLiquidityWallet(address newLiquidityWallet) external;
 

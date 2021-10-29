@@ -140,6 +140,13 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
         require(fee >= 0 && fee <= 200, "FeeAggregator: FEE_MIN_0_MAX_20");
         dpexFee = fee;
     }
+    /**
+     * @notice set a new PSI address
+     * @param _psi psi token address
+     */
+    function setPSIAddress(address _psi) external override onlyGovernor {
+        psi = _psi;
+    }
     
     /**
      * @notice Adds a fee to the tokensGathered list. For example from the DPEX router

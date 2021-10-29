@@ -6,9 +6,9 @@ import { ecsign } from 'ethereumjs-util'
 import { expandTo18Decimals, getApprovalDigest, mineBlock, MINIMUM_LIQUIDITY } from './shared/utilities'
 import { v2Fixture } from './shared/fixtures'
 
-import { DPexRouter, IWETH } from '@passive-income/dpex-peripheral/typechain'
+import { DPexRouter } from '@passive-income/dpex-peripheral/typechain'
 import { IDPexPair } from '@passive-income/dpex-swap-core/typechain'
-import { PSI, PSIGovernance, FeeAggregator } from '../typechain'
+import { PSI, PSIGovernance, FeeAggregator, WBNB } from '../typechain'
 
 chai.use(waffle.solidity)
 
@@ -22,29 +22,29 @@ describe('FeeAggregator', () => {
   const loadFixture = createFixtureLoader([owner], provider)
 
   let psi: PSI
-  let WETH: IWETH
+  let WBNB: WBNB
   let governance: PSIGovernance
   let feeAggregator: FeeAggregator
   beforeEach(async function() {
     const fixture = await loadFixture(v2Fixture)
     psi = fixture.psi
-    WETH = fixture.WETH
+    WBNB = fixture.WBNB
     governance = fixture.governance
     feeAggregator = fixture.feeAggregator
   })
 
   it('psi, WETH', async () => {
     expect(await feeAggregator.psi(overrides)).to.eq(psi.address)
-    expect(await feeAggregator.baseToken(overrides)).to.eq(WETH.address)
+    expect(await feeAggregator.baseToken(overrides)).to.eq(WBNB.address)
   })
 
   it('addFeeTokens', async () => {
     expect((await feeAggregator.feeTokens(overrides)).length).to.eq(0);
 
-    expect(await feeAggregator.isFeeToken(WETH.address, overrides)).to.eq(false)
-    await feeAggregator.addFeeToken(WETH.address, overrides);
-    expect(await feeAggregator.isFeeToken(WETH.address, overrides)).to.eq(true)
-    await expect(feeAggregator.addFeeToken(WETH.address, overrides)).to.be.revertedWith("FeeAggregator: ALREADY_FEE_TOKEN")
+    expect(await feeAggregator.isFeeToken(WBNB.address, overrides)).to.eq(false)
+    await feeAggregator.addFeeToken(WBNB.address, overrides);
+    expect(await feeAggregator.isFeeToken(WBNB.address, overrides)).to.eq(true)
+    await expect(feeAggregator.addFeeToken(WBNB.address, overrides)).to.be.revertedWith("FeeAggregator: ALREADY_FEE_TOKEN")
 
     expect(await feeAggregator.isFeeToken(psi.address, overrides)).to.eq(false)
     await feeAggregator.addFeeToken(psi.address, overrides);
@@ -53,14 +53,14 @@ describe('FeeAggregator', () => {
   })
 
   it('removeFeeTokens', async () => {
-    await expect(feeAggregator.removeFeeToken(WETH.address, overrides)).to.be.revertedWith("FeeAggregator: NO_FEE_TOKEN")
+    await expect(feeAggregator.removeFeeToken(WBNB.address, overrides)).to.be.revertedWith("FeeAggregator: NO_FEE_TOKEN")
     await expect(feeAggregator.removeFeeToken(psi.address, overrides)).to.be.revertedWith("FeeAggregator: NO_FEE_TOKEN")
 
-    await feeAggregator.addFeeToken(WETH.address, overrides);
+    await feeAggregator.addFeeToken(WBNB.address, overrides);
     await feeAggregator.addFeeToken(psi.address, overrides);
     expect((await feeAggregator.feeTokens(overrides)).length).to.eq(2);
 
-    await feeAggregator.removeFeeToken(WETH.address, overrides);
+    await feeAggregator.removeFeeToken(WBNB.address, overrides);
     await feeAggregator.removeFeeToken(psi.address, overrides);
     expect((await feeAggregator.feeTokens(overrides)).length).to.eq(0);
   })
