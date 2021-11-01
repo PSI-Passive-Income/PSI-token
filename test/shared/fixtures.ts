@@ -73,9 +73,9 @@ export async function v2Fixture([wallet]: Wallet[], provider: providers.Web3Prov
   const pcRouter = await waffle.deployContract(wallet, PancakeRouterAbi, [pcFactory.address, WBNB.address], overrides) as PancakeRouter
 
   // deploy PSI
-  const psi = await waffle.deployContract(wallet, PSIAbi, [psiv1.address, pcRouter.address, pcFactory.address], overrides) as PSI
+  const PSI = await ethers.getContractFactory("PSI");
+  const psi =  await upgrades.deployProxy(PSI, [psiv1.address, pcRouter.address, pcFactory.address], {initializer: 'initialize'}) as PSI;
   await psi.setAccountExcludedFromFees(feeAggregator.address, true)
-  await psi.setAccountExcludedFromFees(pcRouter.address, true)
   await feeAggregator.setPSIAddress(psi.address)
 
   const WBNBPairAddress = await pcFactory.getPair(psi.address, WBNB.address)

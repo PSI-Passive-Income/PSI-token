@@ -4,19 +4,17 @@
 
 pragma solidity ^0.8.0;
 
-import "hardhat/console.sol";
-import "@openzeppelin/contracts/utils/Context.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-import '@openzeppelin/contracts/token/ERC20/ERC20.sol';
-import '@openzeppelin/contracts/token/ERC20/extensions/draft-ERC20Permit.sol';
-import '@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol';
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
 import "./interfaces/IDEXFactory.sol";
 import "./interfaces/IDEXRouter.sol";
 import "./interfaces/IPSI.sol";
 import "./interfaces/IPSIv1.sol";
 
-contract PSI is Context, Ownable, ERC20, ERC20Permit, IPSI  {
-    using SafeERC20 for IPSIv1;
+contract PSI is OwnableUpgradeable, ERC20Upgradeable, ERC20PermitUpgradeable, IPSI  {
+    using SafeERC20Upgradeable for IPSIv1;
 
     mapping (address => uint256) private _reflectedOwned;
     mapping (address => uint256) private _totalOwned;
@@ -25,14 +23,14 @@ contract PSI is Context, Ownable, ERC20, ERC20Permit, IPSI  {
     mapping (address => bool) private _addressesExcludedFromFeePayment;
     mapping (address => bool) private _addressesExcludedFromDexFeePayment;
 
-    uint256 public override reflectionFee = 100; // in basis points, so 1% on default;
-    uint256 public override liquidityBuyFee = 100; // in basis points, so 1% on default;
-    uint256 public override liquiditySellFee = 100; // in basis points, so 1% on default;
-    uint256 public override swapTokensAtAmount = 2 * 10**9;
+    uint256 public override reflectionFee;
+    uint256 public override liquidityBuyFee;
+    uint256 public override liquiditySellFee;
+    uint256 public override swapTokensAtAmount;
    
     uint256 private constant MAX = ~uint256(0);
     uint256 private constant _maxWithoutReflection = 18183 * 10**9;
-    uint256 private _maxWithReflection = (MAX - (MAX % _maxWithoutReflection));
+    uint256 private _maxWithReflection;
     uint256 private _currentWithoutReflection;
     uint256 private _totalExcludedWithoutReflection;
     uint256 private _totalExcludedWithReflection;
@@ -48,9 +46,21 @@ contract PSI is Context, Ownable, ERC20, ERC20Permit, IPSI  {
 
     bool private _isSwappingFees;
 
-    constructor (address _oldPsiContract, address _router, address factory) 
-    ERC20('passive.income', 'PSI')
-    ERC20Permit('passive.income') {
+    /**
+     * @dev Initializes the contract setting the deployer as the initial Governor.
+     */
+    function initialize(address _oldPsiContract, address _router, address factory) public initializer {
+        reflectionFee = 100; // in basis points, so 1% on default;
+        liquidityBuyFee = 100; // in basis points, so 1% on default;
+        liquiditySellFee = 100; // in basis points, so 1% on default;
+        swapTokensAtAmount = 2 * 10**9;
+
+        _maxWithReflection = (MAX - (MAX % _maxWithoutReflection));
+
+        __Ownable_init();
+        __ERC20Permit_init_unchained('Passive Income');
+        __ERC20_init_unchained('Passive Income', 'PSI');
+
         oldPsiContract = _oldPsiContract;
         setAccountExcludedFromFees(_msgSender(), true);
         setAccountExcludedFromFeeRetrieval(_msgSender(), true);
@@ -65,17 +75,17 @@ contract PSI is Context, Ownable, ERC20, ERC20Permit, IPSI  {
     receive() external payable {}
 
     //== ERC functions ==
-    function totalSupply() public override(ERC20, IERC20) view returns (uint256) {
+    function totalSupply() public override(ERC20Upgradeable, IERC20Upgradeable) view returns (uint256) {
         return _currentWithoutReflection;
     }
-    function decimals() public pure override(ERC20, IERC20Metadata) returns (uint8) {
+    function decimals() public pure override(ERC20Upgradeable, IERC20MetadataUpgradeable) returns (uint8) {
         return 9;
     }
     function getOwner() public override view returns (address) {
         return owner();
     }
 
-    function balanceOf(address account) public override(ERC20, IERC20) view returns (uint256) {
+    function balanceOf(address account) public override(ERC20Upgradeable, IERC20Upgradeable) view returns (uint256) {
         if (isExcludedFromFeeRetrieval(account)) return _totalOwned[account];
         return tokenFromReflection(_reflectedOwned[account]);
     }
@@ -85,7 +95,7 @@ contract PSI is Context, Ownable, ERC20, ERC20Permit, IPSI  {
         swapEnabled = value;
     }
     function swapOld() external override {
-        uint256 amount = IERC20(oldPsiContract).balanceOf(_msgSender());
+        uint256 amount = IERC20Upgradeable(oldPsiContract).balanceOf(_msgSender());
         require(amount > 0, "PSI: NOTHING_TO_SWAP");
         swapOldAmount(amount);
     }

@@ -9,6 +9,7 @@ interface IFeeAggregator {
     function calculateFee(address token, uint256 amount) external view returns (uint256 fee, uint256 amountLeft);
 
     function addFeeToken(address token) external;
+    function addFeeTokens(address[] calldata tokens) external;
     function approveFeeToken(address token) external;
     function approveFeeTokens() external;
     function removeFeeToken(address token) external;

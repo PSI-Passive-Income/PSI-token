@@ -2,11 +2,11 @@
 
 pragma solidity ^0.8.0;
 
-import '@openzeppelin/contracts/token/ERC20/extensions/draft-IERC20Permit.sol';
+import '@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-IERC20PermitUpgradeable.sol';
 import "./IDEXRouter.sol";
 import "./IBEP20.sol";
 
-interface IPSI is IBEP20, IERC20Permit {
+interface IPSI is IBEP20, IERC20PermitUpgradeable {
     event SwapAndLiquify(uint256 tokensSwapped, uint256 ethReceived);
     event SetDefaultDexRouter(address indexed newAddress, address indexed oldAddress);
     event SetDexPair(address indexed pair, bool indexed value);

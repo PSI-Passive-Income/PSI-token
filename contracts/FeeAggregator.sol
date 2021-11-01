@@ -103,10 +103,19 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
      * @notice add a token to deduct a fee for on swap
      * @param token fee token to add
      */
-    function addFeeToken(address token) external override onlyGovernor {
+    function addFeeToken(address token) public override onlyGovernor {
         require(!_feeTokens.contains(token), "FeeAggregator: ALREADY_FEE_TOKEN");
         _feeTokens.add(token);
         approveFeeToken(token);
+    }
+    /**
+     * @notice add fee tokens to deduct a fee for on swap
+     * @param tokens fee tokens to add
+     */
+    function addFeeTokens(address[] calldata tokens) external override onlyGovernor {
+        for(uint256 idx = 0; idx < tokens.length; idx++) {
+            addFeeToken(tokens[idx]);
+        }
     }
     /**
      * @notice approve a single fee token on the router

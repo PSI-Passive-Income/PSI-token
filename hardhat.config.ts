@@ -33,12 +33,11 @@ const config: HardhatUserConfig = {
     mainnet: {
       url: `${process.env.MAIN_INFURA}`,
       accounts: [`0x${process.env.MAIN_PRIVATE_KEY}`],
-      // gasPrice: 200000000000
     },
     bsctestnet: {
-      url: "https://data-seed-prebsc-1-s2.binance.org:8545",
+      url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,
-      accounts: [`0x${process.env.BSC_TEST_PRIVATE_KEY}`],
+      accounts: [`0x${process.env.BSC_TEST_PRIVATE_KEY}`]
     },
     bscmainnet: {
       url: "https://bsc-dataseed.binance.org/",
