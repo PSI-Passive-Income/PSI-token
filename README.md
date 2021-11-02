@@ -5,7 +5,7 @@ This project is using [Hardhat](https://hardhat.org/getting-started/) for develo
 ## Contracts
 
 * Binance Chain
-  * PSI : [0x6e70194F3A2D1D0a917C2575B7e33cF710718a17](https://testnet.bscscan.com/address/0x6e70194F3A2D1D0a917C2575B7e33cF710718a17)
+  * PSI : [0x6e70194F3A2D1D0a917C2575B7e33cF710718a17](https://bscscan.com/address/0x6e70194F3A2D1D0a917C2575B7e33cF710718a17)
   * PSIV1 : [0x9A5d9c681Db43D9863e9279c800A39449B7e1d6f](https://bscscan.com/address/0x9A5d9c681Db43D9863e9279c800A39449B7e1d6f)
   * Income : [0xDc3890618bd71d3eF3eC18BB14a510c0dA528947](https://bscscan.com/address/0xDc3890618bd71d3eF3eC18BB14a510c0dA528947)
   * PSI Governance : [0xa1B540B2BE89b55d5949754E326Fb80063F9781f](https://bscscan.com/address/0xa1B540B2BE89b55d5949754E326Fb80063F9781f)
