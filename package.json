@@ -1,7 +1,7 @@
 {
   "name": "@passive-income/psi-contracts",
   "description": "🎛 token and fee contracts for the PSI",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "homepage": "https://www.passive-income.io/",
   "private": false,
   "repository": {
@@ -68,8 +68,7 @@
     "precompile": "yarn clean",
     "compile": "hardhat compile",
     "pretest": "yarn compile",
-    "test": "hardhat test",
-    "prepublishOnly": "yarn test"
+    "test": "hardhat test"
   },
   "license": "GPL-3.0-or-later"
 }
