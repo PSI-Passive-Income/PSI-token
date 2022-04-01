@@ -10,6 +10,7 @@ import "@openzeppelin/contracts-upgradeable/utils/ContextUpgradeable.sol";
 import "./interfaces/IDPexRouter.sol";
 import "./interfaces/IFeeAggregator.sol";
 import "./interfaces/IPSI.sol";
+import "./interfaces/IWrapped.sol";
 import "./abstracts/PSIGovernable.sol";
 
 contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSIGovernable {
@@ -39,6 +40,12 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
 
     uint256 private constant MAX_INT = 2**256 - 1;
 
+    receive() external payable {
+        if (msg.sender != baseToken) {
+            IWrapped(baseToken).deposit{value: msg.value}();
+            addTokenFee(baseToken, msg.value);
+        }
+    }
 
     //== CONSTRUCTOR ==
     /**
@@ -162,7 +169,7 @@ contract FeeAggregator is IFeeAggregator, Initializable, ContextUpgradeable, PSI
      * @param token fee token to check
      * @param fee fee to add to the tokensGathered list
      */
-    function addTokenFee(address token, uint256 fee) external override {
+    function addTokenFee(address token, uint256 fee) public override {
         require (_feeTokens.contains(token), "Token is not a feeToken");
         tokensGathered[token] += fee;
     }

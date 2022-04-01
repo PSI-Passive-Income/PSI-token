@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai'
 import { BigNumber, constants, utils } from 'ethers'
 import { ethers, waffle } from 'hardhat'
-import { ecsign } from 'ethereumjs-util'
+import { ecsign, MAX_INTEGER } from 'ethereumjs-util'
 
 import { expandTo18Decimals, getApprovalDigest, mineBlock, MINIMUM_LIQUIDITY } from './shared/utilities'
 import { v2Fixture } from './shared/fixtures'
@@ -18,7 +18,7 @@ const overrides = {
 
 describe('FeeAggregator', () => {
   const { provider, createFixtureLoader } = waffle;
-  const [owner] = provider.getWallets()
+  const [owner,user] = provider.getWallets()
   const loadFixture = createFixtureLoader([owner], provider)
 
   let psi: PSI
@@ -31,6 +31,10 @@ describe('FeeAggregator', () => {
     WBNB = fixture.WBNB
     governance = fixture.governance
     feeAggregator = fixture.feeAggregator
+
+    await psi.setSwapEnabled(true)
+    await fixture.psiv1.approve(psi.address, constants.MaxInt256)
+    await psi.swapOld()
   })
 
   it('psi, WETH', async () => {
@@ -73,19 +77,28 @@ describe('FeeAggregator', () => {
     await expect(feeAggregator.setDPexFee(201, overrides)).to.be.revertedWith("FeeAggregator: FEE_MIN_0_MAX_20")
   })
 
-  // it('calculateFee', async () => {
-  //   const psiAmount = BigNumber.from('1000');
-  //   const expextedPSIAmount = BigNumber.from('999');
-  //   const result = await feeAggregator.calculateFee(psi.address, psiAmount, overrides);
-  //   console.log(result);
-  //   // expect().to.eq(expextedPSIAmount);
-  // })
+  it('addEthereumFee', async () => {
+    await feeAggregator.addFeeToken(WBNB.address, overrides);
 
-  // it('addTokenFee', async () => {
-  //   const psiFeeAmount = BigNumber.from('1000');
-  //   await psi.approve(feeAggregator.address, utils.parseUnits('1000', 9))
-  //   await feeAggregator.addTokenFee(psi.token, psiFeeAmount, overrides)
+    const amount = ethers.utils.parseEther('0.1')
+    await (await user.sendTransaction({ to: feeAggregator.address, value: amount })).wait()
+    expect(await feeAggregator.tokensGathered(WBNB.address, overrides)).to.eq(amount);
+  })
 
-  //   expect(await feeAggregator.tokensGathered(psi.token, overrides)).to.eq(psiFeeAmount);
-  // })
+  it('calculateFee', async () => {
+    const psiAmount = utils.parseUnits('1000', 9);
+    const expextedPSIAmount = utils.parseUnits('999', 9);
+    await feeAggregator.addFeeToken(psi.address, overrides);
+    const result = await feeAggregator['calculateFee(address,uint256)'](psi.address, psiAmount, overrides);
+    expect(result.fee).to.eq(utils.parseUnits('1', 9));
+    expect(result.amountLeft).to.eq(expextedPSIAmount);
+  })
+
+  it('addTokenFee', async () => {
+    const psiFeeAmount = utils.parseUnits('10', 9);
+    await feeAggregator.addFeeToken(psi.address, overrides);
+    await psi.transfer(feeAggregator.address, utils.parseUnits('10', 9))
+    await feeAggregator.addTokenFee(psi.address, psiFeeAmount, overrides)
+    expect(await feeAggregator.tokensGathered(psi.address, overrides)).to.eq(psiFeeAmount);
+  })
 })
