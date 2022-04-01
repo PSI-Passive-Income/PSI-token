@@ -1,7 +1,7 @@
 {
   "name": "@passive-income/psi-contracts",
   "description": "🎛 token and fee contracts for the PSI",
-  "version": "2.0.2",
+  "version": "2.0.1",
   "homepage": "https://www.passive-income.io/",
   "private": false,
   "repository": {
@@ -64,11 +64,12 @@
   "scripts": {
     "lint": "yarn prettier ./test/*.ts --check",
     "lint:fix": "yarn prettier ./test/*.ts --write",
-    "clean": "rimraf ./abi/ && rimraf ./artifacts/ && rimraf ./cache/ && rimraf ./typechain/",
+    "clean": "rimraf ./abi/ && rimraf ./artifacts/ && rimraf ./cache/ && rimraf ./typechain/ && hardhat clean",
     "precompile": "yarn clean",
     "compile": "hardhat compile",
     "pretest": "yarn compile",
-    "test": "hardhat test"
+    "test": "hardhat test",
+    "prepublishOnly": "yarn compile"
   },
   "license": "GPL-3.0-or-later"
 }
