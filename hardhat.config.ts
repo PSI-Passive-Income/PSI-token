@@ -29,25 +29,35 @@ const config: HardhatUserConfig = {
     },
     kovan: {
       url: `${process.env.KOVAN_INFURA}`,
-      accounts: [`0x${process.env.KOVAN_PRIVATE_KEY}`]
+      accounts: [`0x${process.env.PRIVATE_KEY}`]
     },
     rinkeby: {
       url: `${process.env.RINKEBY_INFURA}`,
-      accounts: [`0x${process.env.RINKEBY_PRIVATE_KEY}`]
+      accounts: [`0x${process.env.PRIVATE_KEY}`]
     },
     mainnet: {
       url: `${process.env.MAIN_INFURA}`,
-      accounts: [`0x${process.env.MAIN_PRIVATE_KEY}`],
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
     bsctestnet: {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545",
       chainId: 97,
-      accounts: [`0x${process.env.BSC_TEST_PRIVATE_KEY}`]
+      accounts: [`0x${process.env.PRIVATE_KEY}`]
     },
     bscmainnet: {
       url: "https://bsc-dataseed.binance.org/",
       chainId: 56,
-      accounts: [`0x${process.env.BSC_PRIVATE_KEY}`],
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
+    },
+    polygon: {
+      url: "https://matic-mainnet.chainstacklabs.com",
+      chainId: 137,
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
+    },
+    polygonmumbai: {
+      url: "https://speedy-nodes-nyc.moralis.io/74952dfd773888c65e279d29/polygon/mumbai",
+      chainId: 80001,
+      accounts: [`0x${process.env.PRIVATE_KEY}`],
     },
     ganache: {
       url: "HTTP://127.0.0.1:7545",
@@ -56,12 +66,14 @@ const config: HardhatUserConfig = {
     }
   },
   etherscan: {
-    apiKey: `${process.env.BSC_API_TOKEN}`
+    // apiKey: `${process.env.ETHERSCAN_API_TOKEN}`
+    // apiKey: `${process.env.BSC_API_TOKEN}`
+    apiKey: `${process.env.POLYGON_API_TOKEN}`
   },
   solidity: {
     compilers: [
       {
-        version: "0.8.9",
+        version: "0.8.14",
         settings: {
           optimizer: {
             enabled: true,

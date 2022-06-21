@@ -3,7 +3,7 @@ import { waffle, ethers, upgrades } from 'hardhat'
 
 import { DPexRouter, DPexRouterPairs } from '@passive-income/dpex-peripheral/typechain'
 import { DPexFactory, IDPexPair } from '@passive-income/dpex-swap-core/typechain'
-import { PSI, PSIv1, Income, IncomeMinter, PSIGovernance, FeeAggregator, WBNB, PancakeFactory, PancakeRouter, IPancakePair, PancakePair } from '../../typechain'
+import { PSI, PSIv1, Income, IncomeMinter, PSIGovernance, FeeAggregator, SimpleFeeAggregator, WBNB, PancakeFactory, PancakeRouter, IPancakePair, PancakePair } from '../../typechain'
 
 import DPexFactoryAbi from '@passive-income/dpex-swap-core/artifacts/contracts/DPexFactory.sol/DPexFactory.json'
 import IDPexPairAbi from '@passive-income/dpex-swap-core/artifacts/contracts/interfaces/IDPexPair.sol/IDPexPair.json'
@@ -14,7 +14,8 @@ import PSIAbi from '../../artifacts/contracts/PSI.sol/PSI.json'
 import PSIv1Abi from '../../artifacts/contracts/PSIv1.sol/PSIv1.json'
 import IncomeAbi from '../../artifacts/contracts/Income.sol/Income.json'
 import PSIGovernanceAbi from '../../artifacts/contracts/PSIGovernance.sol/PSIGovernance.json'
-import FeeAggregatorAbi from '../../artifacts/contracts/FeeAggregator.sol/FeeAggregator.json'
+import FeeAggregatorAbi from '../../artifacts/contracts/SimpleFeeAggregator.sol/SimpleFeeAggregator.json'
+import SimpleFeeAggregatorAbi from '../../artifacts/contracts/SimpleFeeAggregator.sol/SimpleFeeAggregator.json'
 
 import WBNBAbi from '../../artifacts/contracts/test/WBNB.sol/WBNB.json'
 import PancakeFactoryAbi from '../../artifacts/contracts/test/PancakeFactory.sol/PancakeFactory.json'
@@ -23,6 +24,7 @@ import PancakePairAbi from '../../artifacts/contracts/test/PancakeFactory.sol/Pa
 
 import IncomeMinterAbi from '../../artifacts/contracts/test/IncomeMinter.sol/IncomeMinter.json'
 import { pairHash } from './utilities'
+import { zeroAddress } from 'ethereumjs-util'
 
 const overrides = {
   gasLimit: 9500000
@@ -40,6 +42,7 @@ interface V2Fixture {
   pcRouter: PancakeRouter
   governance: PSIGovernance
   feeAggregator: FeeAggregator
+  simpleFeeAggregator: SimpleFeeAggregator
   WBNBPair: IPancakePair
 }
 
@@ -58,7 +61,9 @@ export async function v2Fixture([wallet]: Wallet[], provider: providers.Web3Prov
 
   // deploy fee aggregator
   const FeeAggregator = await ethers.getContractFactory("FeeAggregator");
-  const feeAggregator =  await upgrades.deployProxy(FeeAggregator, [governance.address, WBNB.address, psiv1.address], {initializer: 'initialize'}) as FeeAggregator;
+  const feeAggregator =  await upgrades.deployProxy(FeeAggregator, [zeroAddress(), WBNB.address, psiv1.address], {initializer: 'initialize'}) as FeeAggregator;
+  const SimpleFeeAggregator = await ethers.getContractFactory("SimpleFeeAggregator");
+  const simpleFeeAggregator =  await upgrades.deployProxy(SimpleFeeAggregator, [zeroAddress(), WBNB.address, wallet.address], {initializer: 'initialize'}) as SimpleFeeAggregator;
 
   // deploy router
   const routerPairs = await waffle.deployContract(wallet, DPexRouterPairsAbi, [], overrides) as DPexRouterPairs
@@ -67,6 +72,8 @@ export async function v2Fixture([wallet]: Wallet[], provider: providers.Web3Prov
   const router = await waffle.deployContract(wallet, DPexRouterAbi, [], overrides) as DPexRouter
   await router.initialize(factory.address, routerPairs.address, WBNB.address, feeAggregator.address, governance.address)
   await governance.setRouter(router.address, overrides);
+  await feeAggregator.updateRouter(router.address, overrides)
+  await simpleFeeAggregator.updateRouter(router.address, overrides)
 
   // pancake router
   const pcFactory = await waffle.deployContract(wallet, PancakeFactoryAbi, [wallet.address], overrides) as PancakeFactory
@@ -96,6 +103,7 @@ export async function v2Fixture([wallet]: Wallet[], provider: providers.Web3Prov
     pcRouter,
     governance,
     feeAggregator,
+    simpleFeeAggregator,
     WBNBPair
   }
 }

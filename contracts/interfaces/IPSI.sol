@@ -3,7 +3,7 @@
 pragma solidity ^0.8.0;
 
 import '@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-IERC20PermitUpgradeable.sol';
-import "./IDEXRouter.sol";
+import "./dex/IDEXRouter.sol";
 import "./IBEP20.sol";
 
 interface IPSI is IBEP20, IERC20PermitUpgradeable {

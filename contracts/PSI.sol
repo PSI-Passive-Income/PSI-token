@@ -8,8 +8,8 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import '@openzeppelin/contracts-upgradeable/token/ERC20/ERC20Upgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC20/extensions/draft-ERC20PermitUpgradeable.sol';
 import '@openzeppelin/contracts-upgradeable/token/ERC20/utils/SafeERC20Upgradeable.sol';
-import "./interfaces/IDEXFactory.sol";
-import "./interfaces/IDEXRouter.sol";
+import "./interfaces/dex/IDEXFactory.sol";
+import "./interfaces/dex/IDEXRouter.sol";
 import "./interfaces/IPSI.sol";
 import "./interfaces/IPSIv1.sol";
 
